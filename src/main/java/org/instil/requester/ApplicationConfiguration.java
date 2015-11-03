@@ -11,9 +11,22 @@ import org.instil.requester.model.Course;
 import org.instil.requester.model.CourseList;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 @Configuration
-public class ApplicationConfiguration {
+@EnableWebSecurity
+public class ApplicationConfiguration extends WebSecurityConfigurerAdapter {
+
+    @Override
+    public void configure(AuthenticationManagerBuilder authentication) throws Exception {
+        super.configure(authentication);
+        authentication.inMemoryAuthentication()
+                      .withUser("tara")
+                      .password("password")
+                      .roles("USER");
+    }
 
     @Bean(name = "courses")
     public CourseList courses() {
